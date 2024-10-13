@@ -1,8 +1,10 @@
 <x-layout>
     <main>
 
-        <div class="flex justify-center items-center bg-darkblue-700 h-svh">
-            <div class="flex max-w-sm md:max-w-4xl w-full rounded-xl border border-none">
+        <div class="flex justify-center items-center bg-darkblue-700 min-h-screen relative">
+            <img src="{{ asset('storage/images/deepblue-bg.png') }}" alt="" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 z-10 w-full h-full object-cover bg-black/50"></div>
+            <div class="flex max-w-sm md:max-w-4xl w-full rounded-xl border border-none relative z-50">
                 <div class="flex justify-center pt-10 pb-6 max-w-sm sm:max-w-md w-full bg-darkblue-500 md:rounded-l-xl">
 
                     <form action="{{ route('register') }}" method="post" class="max-w-xs w-full mx-auto">
@@ -91,14 +93,14 @@
     
     
                 </div>
-                <div class="md:block hidden max-w-md w-full bg-darkblue-400 rounded-r-xl">
+                <div class="md:block hidden max-w-md w-full bg-darkblue-400/70 rounded-r-xl">
                     <div class="flex justify-center items-center h-full">
                         <div class="flex flex-col">
                             <h1 class="text-slate-200/80 text-2xl text-center font-semibold">
                                 Welcome to
                             </h1>
                             <h1 class="text-whiteblue-500 text-4xl text-center font-semibold">
-                                Aurora Inventory
+                                LumiStock
                             </h1>
                         </div>
                     </div>
