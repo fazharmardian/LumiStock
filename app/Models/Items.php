@@ -21,4 +21,8 @@ class Items extends Model
         'amount',
         'image',
     ];
+
+    public function category () {
+        return $this->belongsTo(Category::class);
+    }
 }

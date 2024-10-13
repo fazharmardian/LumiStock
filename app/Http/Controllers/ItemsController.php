@@ -32,10 +32,10 @@ class ItemsController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:255'],
-            'category' => ['required'],
+            'category' => ['required','exists:categories,id'],
             'description' => ['required'],
             'amount' => ['required'],
-            'image' => ['nullable', 'file', 'max:3000', 'mimes:png,jpg,webp']
+            'image' => ['nullable', 'file', 'max:3000', 'mimes:png,jpg,jpeg,webp']
         ]);
 
         $path = Storage::disk('public')->put('item_image', $request->image);
