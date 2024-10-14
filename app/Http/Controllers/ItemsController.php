@@ -54,9 +54,9 @@ class ItemsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Items $items)
+    public function show(Items $item)
     {
-        //
+        return view('index.user.show', ['item' => $item]);
     }
 
     /**

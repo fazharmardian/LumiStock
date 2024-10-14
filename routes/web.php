@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
         Route::redirect('/admin', 'admin/dashboard');
         Route::get('/admin/dashboard', [DashboardController::class, 'index'])
             ->name('admin.dash');
-        Route::resource('admin/item', ItemsController::class);
+        Route::resource('admin/item', ItemsController::class)->except('show');
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
