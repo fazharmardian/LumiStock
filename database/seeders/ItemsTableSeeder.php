@@ -21,28 +21,28 @@ class ItemsTableSeeder extends Seeder
                 'category' => $categories[0], // Electronics
                 'description' => 'A personal computer for mobile use.',
                 'amount' => 10,
-                'image' => 'item_image/laptop.png' // Ensure this image exists in the storage
+                'image' => 'item_images/laptop.png' // Ensure this image exists in the storage
             ],
             [
                 'name' => 'Whiteboard',
                 'category' => $categories[1], // Furniture
                 'description' => 'A board for writing or drawing with markers.',
                 'amount' => 5,
-                'image' => 'item_image/whiteboard.png' // Ensure this image exists in the storage
+                'image' => 'item_images/whiteboard.png' // Ensure this image exists in the storage
             ],
             [
                 'name' => 'Biology Textbook',
                 'category' => $categories[2], // Books
                 'description' => 'A comprehensive guide to biology.',
                 'amount' => 15,
-                'image' => 'item_image/biology_textbook.jpeg' // Ensure this image exists in the storage
+                'image' => 'item_images/biology_textbook.jpg' // Ensure this image exists in the storage
             ],
             [
                 'name' => 'Basketball',
                 'category' => $categories[3], // Sports Equipment
                 'description' => 'Official size basketball for games.',
                 'amount' => 8,
-                'image' => 'item_image/basketball.jpeg' // Ensure this image exists in the storage
+                'image' => 'item_images/basketball.jpg' // Ensure this image exists in the storage
             ],
         ];
 

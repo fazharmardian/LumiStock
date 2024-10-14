@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware([IsUser::class])->group(function () {
         Route::resource('dashboard', HomeController::class)
             ->only('index');
+        Route::resource('item', ItemsController::class)->only('show');
     });
 
     Route::middleware([IsAdmin::class])->group(function () {

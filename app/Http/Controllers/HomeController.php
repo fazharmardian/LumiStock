@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index() {
-        $items = Items::all();
+        $items = Items::latest()->paginate('16');
 
         return view('index.user.dashboard', ['items' => $items]);
     }

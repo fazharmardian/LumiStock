@@ -48,7 +48,7 @@ class ItemsController extends Controller
             'image' => $path
         ]);
 
-        return response()->json($item, 201);
+        return back();
     }
 
     /**

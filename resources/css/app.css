@@ -7,10 +7,10 @@
         @apply border-[0] border-b border-solid border-cyan-500 focus:border-blue-500 focus:ring-0 focus:ring-offset-0 pl-0;
     }
     .checkbox {
-        @apply w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-blue-300
+        @apply w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-blue-300;
     }
     .password-icon {
-        @apply float-right relative -mt-10 max-w-5 max-h-5 text-cyan-500
+        @apply float-right relative -mt-10 max-w-5 max-h-5 text-cyan-500;
     }
     /* nav {
         @apply p-4 max-w-screen-lg mx-auto flex items-center justify-between;
@@ -47,10 +47,22 @@
     } */
 }
 
+@layer utilities {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+}
+
 body {
-    font-family: 'Comfortaa', display;
+    font-family: "Comfortaa", display;
 }
 
 .text-ghotic {
-    font-family: 'BIZ UDPGothic', sans-serif;
+    font-family: "BIZ UDPGothic", sans-serif;
 }

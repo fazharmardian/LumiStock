@@ -20,6 +20,33 @@
                 </div>
             </div>
 
+            <div class="flex-col my-6">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl text-slate-200">Latest Item</h1>
+                    <a href="" class="px-2 text-2xl text-slate-200 hover:bg-darkblue-200 rounded-lg">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+                <div class="flex w-full h-[224px] relative mt-3 overflow-x-scroll no-scrollbar">
+                    <div class="flex absolute gap-x-4">
+                        @foreach ($items as $item)
+                            <div class="flex-col justify-center items-center w-[200px] p-3 rounded-lg bg-darkblue-200">
+                                <img class="w-full h-36 object-cover rounded-lg"
+                                    src="{{ asset('storage/' . $item->image) }}" alt="">
+                                <div class="flex items-center mt-2">
+                                    <div
+                                        class="block h-3 w-3 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))]  
+                                        from-green-500 via-green-300 to-green-100 rounded-full">
+                                    </div>
+                                    <h1 class="ml-1 text-sm text-green-300">available</h1>
+                                </div>
+                                <h1 class="mt-1 text-slate-200">{{ $item->name }}</h1>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 </x-layout>
