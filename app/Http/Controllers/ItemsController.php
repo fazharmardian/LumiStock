@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Items;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -28,7 +28,7 @@ class ItemsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Items $items)
+    public function store(Request $request, Item $items)
     {
         $request->validate([
             'name' => ['required', 'max:255'],
@@ -40,7 +40,7 @@ class ItemsController extends Controller
 
         $path = Storage::disk('public')->put('item_image', $request->image);
 
-        $item = Items::create([
+        $item = Item::create([
             'name' => $request->name,
             'category' => $request->category,
             'description' => $request->description,
@@ -54,15 +54,16 @@ class ItemsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Items $item)
+    public function show(Item $item)
     {
+        $item->load('category');
         return view('index.user.show', ['item' => $item]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Items $items)
+    public function edit(Item $items)
     {
         //
     }
@@ -70,15 +71,39 @@ class ItemsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Items $items)
+    public function update(Request $request, Item $item)
     {
-        //
+        // Validate
+        $request->validate([
+            'title' => ['required', 'max:255'],
+            'body' => ['required'],
+            'image' => ['nullable', 'file', 'max:3000', 'mimes:png,jpg,webp']
+        ]);
+
+        // Store images
+        $path = $item->image ?? null;
+        if ($request->hasFile('image')) {
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
+            }
+            $path = Storage::disk('public')->put('items_image', $request->image);
+        }
+
+        // Update a item
+        $item->update([
+            'title' => $request->title,
+            'body' => $request->body,
+            'image' => $path
+        ]);
+
+        // Redirect
+        return redirect()->route('dashboard')->with('success','Your item was updated succesfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Items $items)
+    public function destroy(Item $items)
     {
         //
     }
