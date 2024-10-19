@@ -10,7 +10,9 @@ class RequestController extends Controller
 {
     public function index () 
     {
-        //
+        $request = Request::paginate(10);
+        
+        return view('index.admin.request', ['requests' => $request]);
     }
 
     public function store (HttpRequest $request) 

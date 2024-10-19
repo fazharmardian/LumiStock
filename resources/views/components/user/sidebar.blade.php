@@ -10,45 +10,45 @@
         <ul class="mt-16 space-y-2 font-medium">
             <p class="ml-2 text-sm text-slate-200">Menu</p>
             <li>
-                <x-user.sidelink href="/" :active="request()->is('dashboard')"> 
+                <x-sidelink href="/" :active="request()->is('dashboard')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-house"></i>
                     </span>
                     <span class="ms-3">Home</span>
-                </x-user.sidelink>
+                </x-sidelink>
             </li>
             <li>
-                <x-user.sidelink href="/" :active="request()->is('items')"> 
+                <x-sidelink href="/" :active="request()->is('items')"> 
                     <span class="flex items-center justify-center w-5 h-5 text-slate-200 transition duration-75">
                         <i class="fa fa-box-open"></i>
                     </span>
                     <span class="ms-3">Items</span>
-                </x-user.sidelink>
+                </x-sidelink>
             </li>
             <li>
-                <x-user.sidelink href="/" :active="request()->is('lending')"> 
+                <x-sidelink href="/" :active="request()->is('lending')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-hand-holding"></i>
                     </span>
                     <span class="ms-3">Lending</span>
-                </x-user.sidelink>
+                </x-sidelink>
             </li>
             <li>
-                <x-user.sidelink href="/" :active="request()->is('collection')"> 
+                <x-sidelink href="/" :active="request()->is('collection')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-bookmark"></i>
                     </span>
                     <span class="ms-3">Collection</span>
-                </x-user.sidelink>
+                </x-sidelink>
             </li>
             <p class="ml-2 text-sm text-slate-200">More</p>
             <li>
-                <x-user.sidelink href="/" :active="request()->is('setting')"> 
+                <x-sidelink href="/" :active="request()->is('setting')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-gear"></i>
                     </span>
                     <span class="ms-3">Setting</span>
-                </x-user.sidelink>
+                </x-sidelink>
             </li>
             <li>
                 <form action="{{ route('logout') }}" method="post" 

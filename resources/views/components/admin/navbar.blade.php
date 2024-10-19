@@ -1,78 +1,93 @@
-@props([])
-
-<nav class="fixed top-0 z-40 sm:pl-64 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav x-data="{ scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 })"
+    :class="scrolled ? 'bg-darkblue-500 border-b-2 border-whiteblue-900' : 'bg-darkblue-500 border-none'"
+    class="fixed top-0 z-40 sm:pl-64 w-full transition-colors duration-300">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
+            {{-- Side Toggle --}}
             <div class="flex items-center justify-start rtl:justify-end">
-
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                    class="inline-flex items-center p-2 text-sm text-slate-200 rounded-lg sm:hidden hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-700 dark:text-gray-400 dark:focus:ring-gray-600">
                     <span class="sr-only">Open sidebar</span>
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path clip-rule="evenodd" fill-rule="evenodd"
-                            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 
-                            01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 
-                            0 010 1.5H2.75A.75.75 0 012 10z">
+                            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
                         </path>
                     </svg>
                 </button>
-
-                <a href="" class="flex ms-2 md:me-24">
-                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
-                    <span
-                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Aurora Inventory</span>
-                </a>
             </div>
-            <div class="flex items-center">
-                <div class="flex items-center ms-3  gap-x-2">
+            {{-- Searchbar --}}
+            <div class="w-full max-w-60 sm:max-w-2xl relative">
+                <input
+                    class="w-full pr-10 rounded-lg bg-darkblue-300 border-none focus:ring-whiteblue-900 transition duration-300 ease-in-out
+                text-slate-200 text-center placeholder-slate-200/70 focus:placeholder-slate-400"
+                    type="search" placeholder="Admin Panel" disabled>
+            </div>
 
-                    <div>
-                        <button type="button"
-                            class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                            aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                            <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full"
-                                src="https://picsum.photos/200" alt="user photo">
-                        </button>
-                    </div>
-                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                        id="dropdown-user">
-                        <div class="px-4 py-3" role="none">
-                            <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                Neil Sims
-                            </p>
-                            <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                neil.sims@flowbite.com
+            <div class="flex items-center">
+                <div class="relative grid place-items-center" x-data="{ open: false }">
+                    {{-- Dropdown Button --}}
+                    <button @click="open = !open" type="button"
+                        class="w-8 h-8 overflow-auto rounded-full bg-slate-100
+                    focus:outline-none focus:ring-1 focus:ring-whiteblue-900
+                    focus:ring-offset-2 focus:ring-offset-slate-800">
+                        <img src="https://picsum.photos/200" alt="">
+                    </button>
+
+                    {{-- Dropdown Menu --}}
+                    <div x-show="open" @click.outside="open = false"
+                        class="bg-darkblue-500 border-whiteblue-900 border absolute top-12 right-0 rounded-lg 
+                    w-[225px] p-4 overflow-hidden font-light">
+
+                        <div class="flex flex-col justify-center items-center hover:bg-darkblue-300 divide-red-50 pl-4 pr-8 pt-2 pb-1 rounded-lg">
+                            <div class="w-14 h-14 mb-2 overflow-auto rounded-full">
+                                <img src="https://picsum.photos/200" alt="">
+                            </div>
+                            <p class="text-xl text-center font-extrabold text-slate-200">
+                                {{ auth()->user()->username }}
                             </p>
                         </div>
-                        <ul class="py-1" role="none">
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Settings</a>
-                            </li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="post">
-                                    @csrf
-                                    
-                                    <button 
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">
-                                    Sign out
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
 
+                        <div class="border-t-2 border-white my-4"></div>
+
+                        <div class="block hover:bg-darkblue-300 text-slate-200 pl-4 pr-8 py-2 rounded-lg">
+                            <a href="/" class="flex">
+                                <span>
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <span class="ms-2">
+                                    My Profile
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="block hover:bg-darkblue-300 text-slate-200 pl-4 pr-8 py-2 rounded-lg">
+                            <a href="/" class="flex">
+                                <span>
+                                    <i class="fa fa-gear"></i>
+                                </span>
+                                <span class="ms-2">
+                                    Setting
+                                </span>
+                            </a>
+                        </div>
+
+                        <form action="{{ route('logout') }}" method="post"
+                            class="pl-4 pr-8 py-2 hover:bg-darkblue-300 rounded-lg">
+                            @csrf
+                            <button class="flex w-full text-slate-200">
+                                <span class="text-slate-200">
+                                    <i class="fa fa-sign-out"></i>
+                                </span>
+                                <span class="ms-2">
+                                    Sign Out
+                                </span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

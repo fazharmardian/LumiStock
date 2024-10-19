@@ -14,7 +14,9 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        return view('index.admin.item');
+        $item = Item::latest()->paginate(10);
+
+        return view('index.admin.item', ['items' => $item]);
     }
 
     /**

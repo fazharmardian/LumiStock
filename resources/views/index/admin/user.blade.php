@@ -34,32 +34,29 @@
                         <thead class="text-xs text-gray-700 uppercase bg-darkblue-500 dark:bg-darkblue-300 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Name</th>
-                                <th scope="col" class="px-6 py-3 text-slate-200">Category</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">Position</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Status</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $item)    
+                            @foreach ($users as $user)    
                             <tr class="bg-darkblue-300 border-b-2 border-darkblue-500 hover:bg-darkblue-400">
                                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="ps-3">
-                                        <div class="text-base font-semibold text-slate-200">{{ $item->name }}</div>
+                                        <div class="text-base font-semibold text-slate-200">{{ $user->username }}</div>
+                                        <div class="font-normal text-gray-500">{{ $user->email }}</div>
+                                    </div>
                                 </th>
-                                <td class="px-6 py-4 text-slate-200">{{ $item->category->name }}</td>
+                                <td class="px-6 py-4 text-slate-200">React Developer</td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
                                         <span class="text-gray-500">Online</span>
                                     </div>
                                 </td>
-                                <td class="flex px-6 py-4 gap-x-4">
-                                    <span class="text-yellow-500">
-                                        <i class="fa fa-pen"></i>
-                                    </span>
-                                    <span class="text-red-500">
-                                        <i class="fa fa-trash-can"></i>
-                                    </span>
+                                <td class="px-6 py-4">
+                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -67,7 +64,7 @@
                     </table>
                     <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 mt-4 pb-4 ">
                         <div>
-                            {{ $items->links() }}
+                            {{ $users->links() }}
                         </div>
                     </div>
                 </div>

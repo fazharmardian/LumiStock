@@ -33,26 +33,36 @@
                     <table class="w-full text-sm text-left rtl:text-right border-collapse">
                         <thead class="text-xs text-gray-700 uppercase bg-darkblue-500 dark:bg-darkblue-300 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-slate-200">Name</th>
-                                <th scope="col" class="px-6 py-3 text-slate-200">Category</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">No</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">Item</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">User</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">Total</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">Type</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Status</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">Request Date</th>
+                                <th scope="col" class="px-6 py-3 text-slate-200">Return Date</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $item)    
+                            @foreach ($requests as $request)    
                             <tr class="bg-darkblue-300 border-b-2 border-darkblue-500 hover:bg-darkblue-400">
-                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                <td class="px-6 py-4 text-slate-200">{{ $loop->iteration }}</td>
+                                <td scope="row" class="flex items-center px-2 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="ps-3">
-                                        <div class="text-base font-semibold text-slate-200">{{ $item->name }}</div>
+                                        <div class="text-base font-semibold text-slate-200">{{ $request->item->name }}</div>
                                 </th>
-                                <td class="px-6 py-4 text-slate-200">{{ $item->category->name }}</td>
+                                <td class="px-6 py-4 text-slate-200">{{ $request->user->username }}</td>
+                                <td class="px-6 py-4 text-slate-200">{{ $request->total_request }}</td>
+                                <td class="px-6 py-4 text-slate-200">{{ $request->type }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-                                        <span class="text-gray-500">Online</span>
+                                        <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 me-2"></div>
+                                        <span class="text-gray-500">{{ $request->status }}</span>
                                     </div>
                                 </td>
+                                <td class="px-6 py-4 text-slate-200">{{ $request->request_date }}</td>
+                                <td class="px-6 py-4 text-slate-200">{{ $request->return_date }}</td>
                                 <td class="flex px-6 py-4 gap-x-4">
                                     <span class="text-yellow-500">
                                         <i class="fa fa-pen"></i>
@@ -67,7 +77,7 @@
                     </table>
                     <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 mt-4 pb-4 ">
                         <div>
-                            {{ $items->links() }}
+                            {{ $requests->links() }}
                         </div>
                     </div>
                 </div>
