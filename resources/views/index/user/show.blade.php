@@ -49,26 +49,69 @@
                         <button class="ml-2 px-3 bg-darkblue-200 hover:bg-darkblue-300 rounded-lg">
                             <i class="fa fa-bookmark text-lg text-slate-200"></i>
                         </button>
-                        
+
                         <!-- Modal -->
                         <div x-show="open" x-transition
                             class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" x-cloak>
-                            <div @click.outside="open = false" class="bg-white rounded-lg p-6 w-[90%] sm:w-[400px]">
-                                <h2 class="text-xl font-semibold mb-4">Confirm Borrow</h2>
-                                <p class="text-gray-700 mb-6">Are you sure you want to borrow this item?</p>
-                                <div class="flex justify-end">
-                                    <button @click="open = false"
-                                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg mr-2">
-                                        Cancel
-                                    </button>
-                                    <button class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg">
-                                        Confirm
-                                    </button>
+                            <div @click.outside="open = false"
+                                class="bg-darkblue-300 rounded-lg p-6 w-[70%] sm:w-[400px]">
+                                <div class="flex justify-between">
+                                    <h2 class="text-xl text-slate-200 mb-4">Borrow {{ $item->name }}</h2>
+                                    <span @click="open = false" class="text-slate-200">
+                                        <i class="fa fa-x"></i>
+                                    </span>
                                 </div>
+
+                                <form action="{{ route('request.store') }}" method="post" x-data="formValidation()"
+                                    @input="checkFormValidity()">
+                                    @csrf
+
+                                    {{-- Hidden Input --}}
+                                    <input type="hidden" name="id_user" value="{{ auth()->id() }}">
+                                    <input type="hidden" name="id_item" value="{{ $item->id }}">
+                                    <input type="hidden" name="type" value="Renting">
+                                    <input type="hidden" name="status" value="Pending">
+
+                                    {{-- Item Name --}}
+                                    <div class="flex flex-col">
+                                        <label class="text-sm text-slate-200" for="name">Item</label>
+                                        <input class="placeholder-slate-200 bg-darkblue-100 border-none rounded-md"
+                                            type="text" placeholder="{{ $item->name }}" disabled>
+                                    </div>
+
+                                    {{-- Return Date --}}
+                                    <div class="mt-2 flex flex-col">
+                                        <label class="text-sm text-slate-200" for="return_date">Date</label>
+                                        <input class="text-slate-200 bg-darkblue-100 border-none rounded-md"
+                                            type="date" name="return_date" x-model="formData.return_date" required>
+                                    </div>
+
+                                    {{-- Total Request --}}
+                                    <div x-data="{ minAmount: 1, maxAmount: {{ $item->amount }}, amount: null }" class="mt-2 flex flex-col">
+                                        <label class="text-sm text-slate-200" for="total_request">Amount</label>
+                                        <input
+                                            class="text-slate-200 placeholder-slate-200 bg-darkblue-100 border-none rounded-md"
+                                            type="number" name="total_request" id="total_request"
+                                            :min="minAmount" :max="maxAmount"
+                                            x-model.number="formData.total_request" required
+                                            @input="if (formData.total_request > maxAmount) formData.total_request = maxAmount; 
+                                                    if (formData.total_request < minAmount) formData.total_request = minAmount">
+                                    </div>
+
+                                    <div class="flex justify-end mt-6">
+                                        <button type="submit"
+                                            class="flex px-3 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+                                            :disabled="!isFormValid">
+                                            <span><i class="fa fa-paper-plane"></i></span>
+                                            <span class="ms-2">Request</span>
+                                        </button>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 

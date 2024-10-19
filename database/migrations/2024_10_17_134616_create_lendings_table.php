@@ -12,8 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lendings', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // Automatically creates an `id` field with auto-increment
+            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_item');
+            $table->integer('total_request');
+            $table->date('lend_date');
+            $table->date('return_date');
+            $table->date('actual_return_date')->nullable();
+            $table->string('status', 50);
+
+            // Foreign key constraints
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_item')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
