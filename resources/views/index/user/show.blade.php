@@ -14,6 +14,12 @@
                 <div class="flex flex-col ml-0 sm:ml-4 mt-4 sm:mt-0">
                     <h1 class="text-2xl sm:text-4xl text-slate-200">
                         {{ $item->name }}
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
                     </h1>
 
                     <div class="flex mt-2">
@@ -40,7 +46,7 @@
                         <span class="ms-2 text-sm text-green-500">{{ $item->amount }}</span>
                     </div>
 
-                    <div x-data="{ open: false }" class="flex mt-2 h-10">
+                    <div x-data="{ open: @if (session('errors')) true @else false @endif }"  class="flex mt-2 h-10">
                         <button @click="open = true"
                             class="flex items-center justify-center px-8 sm:px-16 bg-darkblue-200 hover:bg-darkblue-300 rounded-lg text-slate-200">
                             <i class="fa fa-crosshairs mr-1 text-lg"></i>
@@ -62,11 +68,9 @@
                                     </span>
                                 </div>
 
-                                <form action="{{ route('request.store') }}" method="post" x-data="formValidation()"
-                                    @input="checkFormValidity()">
+                                <form action="{{ route('request.store') }}" method="post">
                                     @csrf
 
-                                    {{-- Hidden Input --}}
                                     <input type="hidden" name="id_user" value="{{ auth()->id() }}">
                                     <input type="hidden" name="id_item" value="{{ $item->id }}">
                                     <input type="hidden" name="type" value="Renting">
@@ -80,10 +84,15 @@
                                     </div>
 
                                     {{-- Return Date --}}
-                                    <div class="mt-2 flex flex-col">
+                                    <div x-data="datePicker()" class="mt-2 flex flex-col">
                                         <label class="text-sm text-slate-200" for="return_date">Date</label>
                                         <input class="text-slate-200 bg-darkblue-100 border-none rounded-md"
-                                            type="date" name="return_date" x-model="formData.return_date" required>
+                                            type="date" name="return_date" x-bind:min="minDate"
+                                            x-bind:max="maxDate" x-bind:disabled="!isValidDate(returnDate)"
+                                            x-model="returnDate" required>
+                                        @error('return_date')
+                                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                        @enderror
                                     </div>
 
                                     {{-- Total Request --}}
@@ -92,24 +101,25 @@
                                         <input
                                             class="text-slate-200 placeholder-slate-200 bg-darkblue-100 border-none rounded-md"
                                             type="number" name="total_request" id="total_request"
-                                            :min="minAmount" :max="maxAmount"
-                                            x-model.number="formData.total_request" required
-                                            @input="if (formData.total_request > maxAmount) formData.total_request = maxAmount; 
-                                                    if (formData.total_request < minAmount) formData.total_request = minAmount">
+                                            :min="minAmount" :max="maxAmount" required
+                                            @input="if ($event.target.value > maxAmount) $event.target.value = maxAmount; 
+                                            if ($event.target.value < minAmount) $event.target.value = minAmount">
+                                        @error('total_request')
+                                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                        @enderror
                                     </div>
 
                                     <div class="flex justify-end mt-6">
                                         <button type="submit"
-                                            class="flex px-3 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
-                                            :disabled="!isFormValid">
+                                            class="flex px-3 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
                                             <span><i class="fa fa-paper-plane"></i></span>
                                             <span class="ms-2">Request</span>
                                         </button>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -118,6 +128,21 @@
             <div
                 class="flex items-center justify-between px-4 sm:px-16 rounded-xl bg-darkblue-200 h-[250px] sm:h-[300px]">
             </div>
+
+            <div x-data="{ showSuccess: {{ session('message') ? 'true' : 'false' }} }" x-show="showSuccess" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="translate-y-full opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="translate-y-full opacity-0"
+                class="fixed bottom-5 right-5 z-50 flex items-center justify-between w-72 py-2 px-4 bg-green-500 text-white rounded-lg shadow-lg"
+                style="display: none;">
+                <span class="text-sm">
+                    {{ session('success') ?? 'Operation was successful!' }}
+                </span>
+                <button @click="showSuccess = false" class="ml-3 text-md">
+                    <i class="fa fa-x"></i>
+                </button>
+            </div>
+
         </div>
 
     </main>

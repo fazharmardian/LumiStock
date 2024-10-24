@@ -32,4 +32,9 @@ class Item extends Model
         return $this->hasMany(Request::class);
     }
 
+    public function lendings () 
+    {
+        return $this->hasMany(Lending::class);
+    }
+
 }

@@ -10,12 +10,20 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $user = User::latest()->paginate(10);
+    public function index(Request $request)
+{
+    $search = $request->input('search');
 
-        return view('index.admin.user', ['users' => $user]);
-    }
+    $users = User::latest()
+        ->when($search, function ($query, $search) {
+            return $query->where('username', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+        })
+        ->paginate(10);
+
+    return view('index.admin.user', ['users' => $users, 'search' => $search]);
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -30,7 +38,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            //
+        ]);
     }
 
     /**

@@ -4,7 +4,7 @@
             <img src="{{ asset('storage/images/deepblue-bg.png') }}" alt="" class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 z-10 w-full h-full object-cover bg-black/50"></div>
             <div class="flex max-w-sm md:max-w-4xl w-full rounded-xl relative z-10">
-                <div class="flex justify-center pt-10 pb-6 max-w-sm sm:max-w-md w-full bg-darkblue-500 md:rounded-l-xl">
+                <div class="flex justify-center pt-10 pb-6 max-w-sm sm:max-w-md w-full bg-darkblue-300 md:rounded-l-xl">
 
                     <form action="{{ route('login') }}" method="post" class="max-w-xs w-full mx-auto">
                         @csrf
@@ -15,7 +15,7 @@
                             <label for="email" class="block text-slate-200 mb-1 text-sm font-medium">Email</label>
                             <input type="text" name="email" id="email" placeholder="Enter Your Email"
                                 value="{{ old('email') }}"
-                                class="w-full  rounded-xl bg-darkblue-400 text-slate-200 border-none focus:border-sky-950 @error('email') border-red-500  @enderror">
+                                class="w-full  rounded-xl bg-darkblue-500 text-slate-200 border-none focus:border-sky-950 @error('email') border-red-500  @enderror">
                             @error('email')
                                 <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
@@ -26,7 +26,7 @@
                                 class="block text-slate-200 mt-2 mb-1 text-sm font-medium">Password</label>
                             <input :type="show ? 'text' : 'password'" type="password" name="password" id="password"
                                 placeholder="Enter Your Password"
-                                class="w-full  rounded-xl bg-darkblue-400 text-slate-200 border-none focus:border-sky-950 @error('password') border-red-500  @enderror"></input>
+                                class="w-full  rounded-xl bg-darkblue-500 text-slate-200 border-none focus:border-sky-950 @error('password') border-red-500  @enderror"></input>
                             
                             <div class="flex flex-row-reverse items-center mr-2 mb-2">
                                 <span class="password-icon text-slate-500" toggle="password" @click="show = !show"
@@ -79,7 +79,7 @@
                     </form>
     
                 </div>
-                <div class="md:block hidden max-w-md w-full bg-darkblue-400/70 rounded-r-xl">
+                <div class="md:block hidden max-w-md w-full bg-darkblue-100/70 rounded-r-xl">
                     <div class="flex justify-center items-center h-full">
                         <div class="flex flex-col">
                             <h1 class="text-slate-200/80 text-2xl text-center font-semibold">

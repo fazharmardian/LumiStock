@@ -1,5 +1,5 @@
 <nav x-data="{ scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 })"
-    :class="scrolled ? 'bg-darkblue-500 border-b-2 border-whiteblue-900' : 'bg-darkblue-500 border-none'"
+    :class="scrolled ? 'bg-darkblue-500 border-b-2 border-indigo-300/50' : 'bg-darkblue-500 border-none'"
     class="fixed top-0 z-40 sm:pl-64 w-full transition-colors duration-300">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
@@ -7,7 +7,7 @@
             <div class="flex items-center justify-start rtl:justify-end">
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
-                    class="inline-flex items-center p-2 text-sm text-slate-200 rounded-lg sm:hidden hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                    class="inline-flex items-center p-2 text-sm text-slate-200 rounded-lg sm:hidden hover:bg-darkblue-100 focus:outline-none focus:ring-2 focus:ring-darkblue-300 dark:text-gray-400 dark:focus:ring-gray-600">
                     <span class="sr-only">Open sidebar</span>
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@
                     </button>
 
                     {{-- Dropdown Menu --}}
-                    <div x-show="open" @click.outside="open = false"
+                    <div x-show="open" @click.outside="open = false" x-cloak
                         class="bg-darkblue-500 border-whiteblue-900 border absolute top-12 right-0 rounded-lg 
                     w-[225px] p-4 overflow-hidden font-light">
 

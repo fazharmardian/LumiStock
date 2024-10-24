@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,12 +13,25 @@ class ItemsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $item = Item::latest()->paginate(10);
+        $search = $request->input('search');
 
-        return view('index.admin.item', ['items' => $item]);
+        $items = Item::latest()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
+        $categories = Category::all();
+
+        return view('index.admin.item', [
+            'items' => $items,
+            'categories' => $categories,
+            'search' => $search,
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +48,7 @@ class ItemsController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:255'],
-            'category' => ['required', 'exists:categories,id'],
+            'category_id' => ['required', 'exists:categories,id'],
             'description' => ['required'],
             'amount' => ['required'],
             'image' => ['nullable', 'file', 'max:3000', 'mimes:png,jpg,jpeg,webp']
@@ -42,15 +56,15 @@ class ItemsController extends Controller
 
         $path = Storage::disk('public')->put('item_image', $request->image);
 
-        $item = Item::create([
+        Item::create([
             'name' => $request->name,
-            'category' => $request->category,
+            'category_id' => $request->category_id,
             'description' => $request->description,
             'amount' => $request->amount,
             'image' => $path
         ]);
 
-        return back();
+        return back()->with('success', 'Item added successfully.');
     }
 
     /**
@@ -75,38 +89,45 @@ class ItemsController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        // Validate
         $request->validate([
-            'title' => ['required', 'max:255'],
-            'body' => ['required'],
-            'image' => ['nullable', 'file', 'max:3000', 'mimes:png,jpg,webp']
+            'name' => ['required', 'max:255'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'description' => ['required'],
+            'amount' => ['required', 'numeric'],
+            'image' => ['nullable', 'file', 'max:3000', 'mimes:png,jpg,jpeg,webp']
         ]);
 
-        // Store images
-        $path = $item->image ?? null;
         if ($request->hasFile('image')) {
-            if ($item->image) {
+            if ($item->image && Storage::disk('public')->exists($item->image)) {
                 Storage::disk('public')->delete($item->image);
             }
-            $path = Storage::disk('public')->put('items_image', $request->image);
+
+            $path = Storage::disk('public')->put('item_image', $request->image);
+        } else {
+            $path = $item->image;
         }
 
-        // Update a item
         $item->update([
-            'title' => $request->title,
-            'body' => $request->body,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'description' => $request->description,
+            'amount' => $request->amount,
             'image' => $path
         ]);
 
-        // Redirect
-        return redirect()->route('dashboard')->with('success','Your item was updated succesfully');
+        return back()->with('success', 'Item updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Item $items)
+    public function destroy($id)
     {
-        //
+        $item = Item::findOrFail($id);
+
+        $item->delete();
+
+        return back()->with('success', 'Item deleted successfully.');
     }
 }

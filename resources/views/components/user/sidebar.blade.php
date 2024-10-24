@@ -18,7 +18,7 @@
                 </x-sidelink>
             </li>
             <li>
-                <x-sidelink href="/" :active="request()->is('items')"> 
+                <x-sidelink href="{{ route('item') }}" :active="request()->is('item')"> 
                     <span class="flex items-center justify-center w-5 h-5 text-slate-200 transition duration-75">
                         <i class="fa fa-box-open"></i>
                     </span>
@@ -26,7 +26,7 @@
                 </x-sidelink>
             </li>
             <li>
-                <x-sidelink href="/" :active="request()->is('lending')"> 
+                <x-sidelink href="{{ route('lending') }}" :active="request()->is('lending')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-hand-holding"></i>
                     </span>
@@ -45,9 +45,9 @@
             <li>
                 <x-sidelink href="/" :active="request()->is('setting')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
-                        <i class="fa fa-gear"></i>
+                        <i class="fa fa-info"></i>
                     </span>
-                    <span class="ms-3">Setting</span>
+                    <span class="ms-3">About</span>
                 </x-sidelink>
             </li>
             <li>
