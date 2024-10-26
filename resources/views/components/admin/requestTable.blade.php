@@ -17,7 +17,7 @@
     <tbody>
         @forelse ($requests as $request)
             <tr class="bg-darkblue-300 border-b-2 border-darkblue-500 hover:bg-darkblue-400">
-                <td class="px-6 py-4 text-slate-200">{{ $loop->iteration }}</td>
+                <td class="px-6 py-4 text-slate-200">{{ ($requests->currentPage() - 1) * $requests->perPage() + $loop->iteration }}</td>
                 <td scope="row" class="flex items-center px-2 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                     <div class="ps-3">
                         <div class="text-base text-slate-200">{{ $request->item->name }}</div>

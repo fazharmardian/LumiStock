@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\Lending;
-use Illuminate\Http\Request;
+use App\Models\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index() 
+    public function index()
     {
         $item = Item::latest()->paginate('16');
         $book = Item::where('category_id', '6')->latest()->paginate('5');
@@ -24,17 +26,39 @@ class HomeController extends Controller
         ]);
     }
 
-    public function item()
+    public function item(HttpRequest $request)
     {
-        $item = Item::latest()->paginate('10');
+        $search = $request->input('search');
+        $qcategory = $request->input('category');
 
-        return view('index.user.item', ['items' => $item,]);
+        $items = Item::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->when($qcategory, function ($query, $qcategory) {
+                return $query->where('category_id', $qcategory);
+            })
+            ->latest()
+            ->paginate(10);
+
+        $categories = Category::all();
+
+        return view('index.user.item', [
+            'items' => $items,
+            'categories' => $categories
+        ]);
     }
+
 
     public function lending()
     {
         $lending = Lending::where('id_user', Auth::id())->get();
+        $pending = Request::where('status', 'Pending')
+            ->where('id_user', Auth::id())->get();
 
-        return view('index.user.lending', ['lendings' => $lending]);
+        return view('index.user.lending', [
+            'lendings' => $lending,
+            'pendings' => $pending
+        ]);
     }
 }

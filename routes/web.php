@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('request', RequestController::class)->only('store');
+    Route::resource('request', RequestController::class)->only('store', 'destroy');
 
     Route::middleware([IsUser::class])->group(function () {
         Route::get('item', [HomeController::class, 'item'])->name('item');

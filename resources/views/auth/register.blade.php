@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout color="">
     <main>
 
         <div class="flex justify-center items-center bg-darkblue-700 min-h-screen relative">

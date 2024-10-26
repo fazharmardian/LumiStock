@@ -1,4 +1,4 @@
-<x-layout color="darkblue-500">
+<x-layout color="bg-darkblue-500">
     <x-admin.navbar />
     <x-admin.sidebar />
 

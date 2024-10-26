@@ -70,6 +70,15 @@ class RequestController extends Controller
             'return_date' => ['required', 'date', 'after_or_equal:today'],
         ]);
 
+        $existingRequest = Request::where('id_user', $request->id_user)
+            ->where('id_item', $request->id_item)
+            ->where('status', 'pending')
+            ->first();
+
+        if ($existingRequest) {
+            return back()->withErrors(['message' => 'You already requested this item.']);
+        }
+
 
         Request::create([
             'id_user' => $request->id_user,
@@ -83,5 +92,12 @@ class RequestController extends Controller
         ]);
 
         return back()->with('message', 'Request Sent Successfully');
+    }
+
+    public function destroy (Request $request) 
+    {
+        $request->delete();
+
+        return back()->with('message', 'Request cancelled succesfuly');
     }
 }

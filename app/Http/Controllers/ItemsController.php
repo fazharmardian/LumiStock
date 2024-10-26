@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Lending;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -72,8 +73,12 @@ class ItemsController extends Controller
      */
     public function show(Item $item)
     {
-        $item->load('category');
-        return view('index.user.show', ['item' => $item]);
+        $lending = Lending::where('status', 'lending')->where('id_item', $item->id)->get();
+
+        return view('index.user.show', [
+            'item' => $item,
+            'lendings' => $lending
+        ]);
     }
 
     /**

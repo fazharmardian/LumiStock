@@ -1,4 +1,4 @@
-<x-layout color="darkblue-500">
+<x-layout color="bg-darkblue-500">
     <x-user.navbar />
     <x-user.sidebar />
 
@@ -67,7 +67,7 @@
                     <div class="flex flex-col space-y-6">
                         @foreach ($books as $book)
                         <a href="{{ route('item.show', $book->id) }}"
-                            class="flex items-start space-x-3 hover:bg-darkblue-400 group rounded-lg">
+                            class="flex items-start space-x-3 group rounded-lg">
                             <div class="w-16 h-20 overflow-hidden rounded-md bg-darkblue-400 relative">
                                 <img class="object-cover w-full h-full group-hover:opacity-60 transition-opacity duration-300"
                                     src="{{ asset('storage/' . $book->image) }}">
@@ -101,7 +101,7 @@
                     <div class="flex flex-col space-y-6">
                         @foreach ($electronics as $electronic)
                         <a href="{{ route('item.show', $electronic->id) }}"
-                            class="flex items-start space-x-3 hover:bg-darkblue-400 group rounded-lg">
+                            class="flex items-start space-x-3 group rounded-lg">
                             <div class="w-16 h-20 overflow-hidden rounded-md bg-darkblue-400 relative">
                                 <img class="object-cover w-full h-full group-hover:opacity-60 transition-opacity duration-300"
                                     src="{{ asset('storage/' . $electronic->image) }}">
@@ -128,14 +128,14 @@
                 <div class="bg-darkblue-200 rounded-xl py-5 px-6">
                     <div class="flex mb-4 justify-between">
                         <h2 class="text-gray-300 text-xl sm:text-2xl">Furnitures</h2>
-                        <a href="" class="px-2 text-xl text-slate-500 hover:bg-darkblue-500 rounded-lg">
+                        <a href="" class="px-2 text-xl text-slate-500 hover:bg-darkblue-400 rounded-lg">
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
                     <div class="flex flex-col space-y-6">
                         @foreach ($furnitures as $furniture)
                             <a href="{{ route('item.show', $furniture->id) }}"
-                                class="flex items-start space-x-3 hover:bg-darkblue-400 group rounded-lg">
+                                class="flex items-start space-x-3 group rounded-lg">
                                 <div class="w-16 h-20 overflow-hidden rounded-md bg-darkblue-400 relative">
                                     <img class="object-cover w-full h-full group-hover:opacity-60 transition-opacity duration-300"
                                         src="{{ asset('storage/' . $furniture->image) }}">

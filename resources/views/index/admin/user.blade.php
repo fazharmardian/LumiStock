@@ -1,4 +1,4 @@
-<x-layout color="darkblue-500">
+<x-layout color="bg-darkblue-500">
     <x-admin.navbar />
     <x-admin.sidebar />
 
@@ -52,6 +52,7 @@
                     <table class="w-full text-sm text-left rtl:text-right border-collapse">
                         <thead class="text-xs text-gray-700 uppercase bg-darkblue-500 dark:bg-darkblue-300 dark:text-gray-400">
                             <tr>
+                                <th scope="col" class="px-6 py-3 text-slate-200">No</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">User</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Position</th>
                                 <th scope="col" class="px-6 py-3 text-slate-200">Status</th>
@@ -61,6 +62,7 @@
                         <tbody>
                             @forelse ($users as $user)
                                 <tr class="bg-darkblue-300 border-b-2 border-darkblue-500 hover:bg-darkblue-400">
+                                    <td class="px-6 py-4 text-slate-200 capitalize">{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="w-12 h-12 overflow-auto rounded-full bg-slate-100">
                                             <img src="https://picsum.photos/200" alt="">

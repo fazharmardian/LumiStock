@@ -1,4 +1,4 @@
-<x-layout color="darkblue-500">
+<x-layout color="bg-darkblue-500">
     <x-admin.navbar />
     <x-admin.sidebar />
 
@@ -45,7 +45,7 @@
                         <tbody>
                             @forelse ($lendings as $lending)
                                 <tr class="bg-darkblue-300 border-b-2 border-darkblue-500 hover:bg-darkblue-400">
-                                    <td class="px-6 py-4 text-slate-200">{{ $loop->iteration }}</td>
+                                    <td class="px-6 py-4 text-slate-200">{{ ($lendings->currentPage() - 1) * $lendings->perPage() + $loop->iteration }}</td>
                                     <td class="px-6 py-4 text-lg text-slate-200">{{ $lending->users->username }}</td>
                                     <td class="px-6 py-4 text-slate-200">{{ $lending->items->name }}</td>
                                     <td class="px-6 py-4 text-slate-200">

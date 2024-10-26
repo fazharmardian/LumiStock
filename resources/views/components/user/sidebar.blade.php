@@ -1,6 +1,5 @@
-<aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-50 w-64 h-screen bg-darkblue-300 transition-transform -translate-x-full sm:translate-x-0"
-    aria-label="Sidebar">
+<aside id="logo-sidebar" aria-label="Sidebar"
+    class="fixed top-0 left-0 z-50 w-64 h-screen bg-darkblue-300 transition-transform -translate-x-full sm:translate-x-0">
     <div class="h-full px-3 pb-4 overflow-y-auto">
         <a href="/" class="flex my-4 ml-6">
             <img src="" class="h-8 me-3"/>
@@ -46,13 +45,13 @@
                 <x-sidelink href="/" :active="request()->is('setting')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-info"></i>
-                    </span>
+                    </span> 
                     <span class="ms-3">About</span>
                 </x-sidelink>
             </li>
             <li>
                 <form action="{{ route('logout') }}" method="post" 
-                class="flex items-center p-2 text-slate-200 rounded-lg hover:bg-sky-900  group">
+                class="flex items-center p-2 text-slate-200 rounded-lg hover:bg-darkblue-100  group">
                 @csrf
                     <button class="flex">
                     <span class="flex-shrink-0 w-5 h-5 text-slate-200 transition duration-75">

@@ -19,16 +19,18 @@
             </div>
             {{-- Searchbar --}}
             <div class="w-full max-w-60 sm:max-w-2xl relative">
-                <input
-                    class="w-full pr-10 rounded-lg bg-darkblue-300 border-none focus:ring-whiteblue-900 transition duration-300 ease-in-out
-                text-slate-200 placeholder-slate-200 focus:placeholder-slate-400"
-                    type="search" placeholder="Search">
-                <form class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <button>
+                <form method="GET" action="{{ route('item') }}" class="w-full">
+                    <input
+                        class="w-full pr-10 rounded-lg bg-darkblue-300 border-none focus:ring-whiteblue-900 transition duration-300 ease-in-out
+                        text-slate-200 placeholder-slate-200 focus:placeholder-slate-400"
+                        type="search" name="search" value="{{ request('search') }}" placeholder="Search">
+                    
+                    <button type="submit" class="absolute inset-y-0 right-0 flex items-center pr-3">
                         <i class="fa-solid fa-magnifying-glass text-slate-200"></i>
                     </button>
                 </form>
             </div>
+            
 
             <div class="flex items-center">
                 <div class="relative grid place-items-center" x-data="{ open: false }">
