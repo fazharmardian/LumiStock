@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ItemsController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,38 +19,17 @@ class ItemsController extends Controller
     {
         $search = $request->input('search');
 
-        $items = Item::latest()
+        $item = Item::latest()
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%");
             })
             ->paginate(10);
 
-        $categories = Category::all();
-
-        if ($request->expectsJson()) {
-            return response()->json([
-                'items' => $items,
-            ], 200);
-        }
-
-        return view('index.admin.item', [
-            'items' => $items,
-            'categories' => $categories,
-            'search' => $search,
-        ]);
-    }
-
-    public function apiIndex(Request $request)
-    {
-        $item = Item::latest()
-        ->with('category')
-        ->get();
-
         $category = Category::all();
 
         return response()->json([
             'items' => $item,
-            'categories' => $category,
+            'categories' => $category
         ], 200);
     }
 
@@ -100,14 +79,6 @@ class ItemsController extends Controller
             'item' => $item,
             'lendings' => $lending
         ]);
-    }
-
-    public function apiShow(Item $item)
-    {
-        return response()->json([
-            'success' => true,
-            'data' => $item
-        ], 200);
     }
 
     public function addBookmark(Request $request, $itemId)

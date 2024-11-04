@@ -37,4 +37,9 @@ class Item extends Model
         return $this->hasMany(Lending::class);
     }
 
+    public function bookmarks ()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
 }

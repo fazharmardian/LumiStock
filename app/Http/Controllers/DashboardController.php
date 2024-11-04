@@ -15,12 +15,22 @@ class DashboardController extends Controller
         $item = Item::count();
         $request = ModelsRequest::count();
         $lending = Lending::count();
+        $lendingData = Lending::selectRaw('DATE(lend_date) as date, COUNT(*) as count')
+        ->groupBy('date')
+        ->orderBy('date', 'ASC')
+        ->get();
 
         return view('index.admin.dashboard', [
             'total_user' => $user,
             'total_item' => $item,
             'total_request' => $request,
             'total_lending' => $lending,
+            'lendingData' => $lendingData
         ]);
+    }
+
+    public function profile()
+    {
+        return view('index.admin.profile');
     }
 }

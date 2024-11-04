@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Lending;
@@ -59,6 +60,36 @@ class HomeController extends Controller
         return view('index.user.lending', [
             'lendings' => $lending,
             'pendings' => $pending
+        ]);
+    }
+
+    public function bookmark ()
+    {
+        $bookmark = Bookmark::where('user_id', Auth::id())
+        ->with('item')
+        ->latest()
+        ->paginate(10);
+
+        return view('index.user.bookmark', ['bookmarks' => $bookmark]);
+    }
+
+    public function profile ()
+    {
+        $item = Lending::where('id_user', Auth::id())
+        ->where('status', 'returned')
+        ->count();
+
+        $send = Request::where('id_user', Auth::id())
+        ->count();
+        
+        $approved = Request::where('id_user', Auth::id())
+        ->where('status', 'approved')
+        ->count();
+
+        return view('index.user.profile', [
+            'items' => $item,
+            'sends' => $send,
+            'approved' => $approved
         ]);
     }
 }

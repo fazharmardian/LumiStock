@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('requests', function (Blueprint $table) {
-            $table->id(); // Automatically creates an `id` field with auto-increment
+            $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_item');
             $table->integer('total_request');
@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('status');
             $table->date('return_date');
 
-            // Foreign key constraints
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_item')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('rent_id')->references('id')->on('lendings')->onDelete('set null')->onUpdate('cascade');

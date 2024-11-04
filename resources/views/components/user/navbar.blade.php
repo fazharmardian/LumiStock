@@ -17,20 +17,21 @@
                     </svg>
                 </button>
             </div>
+
             {{-- Searchbar --}}
-            <div class="w-full max-w-60 sm:max-w-2xl relative">
+            <div class="w-full max-w-48 sm:max-w-2xl relative">
                 <form method="GET" action="{{ route('item') }}" class="w-full">
                     <input
                         class="w-full pr-10 rounded-lg bg-darkblue-300 border-none focus:ring-whiteblue-900 transition duration-300 ease-in-out
                         text-slate-200 placeholder-slate-200 focus:placeholder-slate-400"
                         type="search" name="search" value="{{ request('search') }}" placeholder="Search">
-                    
+
                     <button type="submit" class="absolute inset-y-0 right-0 flex items-center pr-3">
                         <i class="fa-solid fa-magnifying-glass text-slate-200"></i>
                     </button>
                 </form>
             </div>
-            
+
 
             <div class="flex items-center">
                 <div class="relative grid place-items-center" x-data="{ open: false }">
@@ -39,7 +40,11 @@
                         class="w-8 h-8 overflow-auto rounded-full bg-slate-100
                     focus:outline-none focus:ring-1 focus:ring-whiteblue-900
                     focus:ring-offset-2 focus:ring-offset-slate-800">
-                        <img src="https://picsum.photos/200" alt="">
+                        @if (auth()->user()->avatar === '')
+                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
+                        @else
+                            <img src="{{ asset('storage/avatars/default_profile.jpg') }}" alt="">
+                        @endif
                     </button>
 
                     {{-- Dropdown Menu --}}
@@ -47,19 +52,24 @@
                         class="bg-darkblue-500 border-whiteblue-900 border absolute top-12 right-0 rounded-lg 
                     w-[225px] p-4 overflow-hidden font-light">
 
-                        <div class="flex flex-col justify-center items-center hover:bg-darkblue-300 divide-red-50 pl-4 pr-8 pt-2 pb-1 rounded-lg">
+                        <a href="{{ route('profile.index') }}"
+                            class="flex flex-col justify-center items-center hover:bg-darkblue-300 divide-red-50 pl-4 pr-8 pt-2 pb-1 rounded-lg">
                             <div class="w-14 h-14 mb-2 overflow-auto rounded-full">
-                                <img src="https://picsum.photos/200" alt="">
+                                @if (auth()->user()->avatar === '')
+                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
+                                @else
+                                    <img src="{{ asset('storage/avatars/default_profile.jpg') }}" alt="">
+                                @endif
                             </div>
                             <p class="text-xl text-center font-extrabold text-slate-200">
                                 {{ auth()->user()->username }}
                             </p>
-                        </div>
+                        </a>
 
                         <div class="border-t-2 border-white my-4"></div>
 
                         <div class="block hover:bg-darkblue-300 text-slate-200 pl-4 pr-8 py-2 rounded-lg">
-                            <a href="/" class="flex">
+                            <a href="{{ route('profile.index') }}" class="flex">
                                 <span>
                                     <i class="fa fa-user"></i>
                                 </span>

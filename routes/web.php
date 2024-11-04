@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\LendingController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsAdmin;
@@ -15,12 +16,18 @@ Route::redirect('/', 'dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::resource('request', RequestController::class)->only('store', 'destroy');
+    Route::resource('profile', ProfileController::class)->only('update');
+
 
     Route::middleware([IsUser::class])->group(function () {
         Route::get('item', [HomeController::class, 'item'])->name('item');
         Route::get('lending', [HomeController::class, 'lending'])->name('lending');
+        Route::get('bookmark', [HomeController::class, 'bookmark'])->name('bookmark');
         Route::resource('dashboard', HomeController::class)->only('index');
         Route::resource('item', ItemsController::class)->only('show');
+        Route::resource('profile', ProfileController::class)->only('index');
+        Route::post('bookmark/add/{itemId}', [ItemsController::class, 'addBookmark'])->name('bookmark.store');
+        Route::delete('bookmark/destroy/{itemId}', [ItemsController::class, 'removeBookmark'])->name('bookmark.destroy');
         // Route::resource('request', RequestController::class)->only('store');
     });
 
@@ -28,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::redirect('/admin', 'admin/dashboard');
         Route::get('/admin/dashboard', [DashboardController::class, 'index'])
         ->name('admin.dash');
+        Route::get('/admin/profile', [DashboardController::class, 'profile'])->name('admin.profile');
         Route::resource('admin/item', ItemsController::class)->except('show');
         Route::resource('admin/user', UserController::class);
         Route::resource('admin/lending', LendingController::class);

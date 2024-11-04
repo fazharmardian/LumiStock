@@ -33,18 +33,18 @@
                 </x-sidelink>
             </li>
             <li>
-                <x-sidelink href="/" :active="request()->is('collection')"> 
+                <x-sidelink href="{{ route('bookmark') }}" :active="request()->is('bookmark')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-bookmark"></i>
                     </span>
-                    <span class="ms-3">Collection</span>
+                    <span class="ms-3">Bookmark</span>
                 </x-sidelink>
             </li>
             <p class="ml-2 text-sm text-slate-200">More</p>
             <li>
                 <x-sidelink href="/" :active="request()->is('setting')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
-                        <i class="fa fa-info"></i>
+                        <i class="fa fa-circle-info"></i>
                     </span> 
                     <span class="ms-3">About</span>
                 </x-sidelink>

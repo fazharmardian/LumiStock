@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lending;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,10 +76,14 @@ class RequestController extends Controller
             ->where('status', 'pending')
             ->first();
 
-        if ($existingRequest) {
-            return back()->withErrors(['message' => 'You already requested this item.']);
-        }
+        $borrowed = Lending::where('id_user', $request->id_user)
+            ->where('id_item', $request->id_item)
+            ->where('status', 'lending')
+            ->first();
 
+        if ($existingRequest || $borrowed) {
+            return back()->withErrors(['message' => 'You already requested or borrowed this item.']);
+        }
 
         Request::create([
             'id_user' => $request->id_user,
@@ -94,7 +99,90 @@ class RequestController extends Controller
         return back()->with('message', 'Request Sent Successfully');
     }
 
-    public function destroy (Request $request) 
+    public function apiIndex()
+    {
+        try {
+            $lending = Lending::where('id_user', Auth::id())
+                ->with(['users', 'items'])
+                ->get();
+            $pending = Request::where('status', 'Pending')
+                ->where('id_user', Auth::id())
+                ->with(['user', 'item'])
+                ->get();
+
+            return response()->json([
+                'lendings' => $lending,
+                'pendings' => $pending
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred while fetching data.',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function apiStore(HttpRequest $request)
+    {
+        // Validate the request input
+        $validatedData = $request->validate([
+            'id_user' => ['required', 'exists:users,id'],
+            'id_item' => ['required', 'exists:items,id'],
+            'total_request' => ['required', 'integer', 'min:1'],
+            'type' => ['required', 'string'],
+            'rent_id' => ['nullable', 'exists:lendings,id'],
+            'status' => ['required', 'string'],
+            'return_date' => ['required', 'date', 'after_or_equal:today'],
+        ]);
+
+        // Check if the user has an existing pending request for the item
+        $existingRequest = Request::where('id_user', $request->id_user)
+            ->where('id_item', $request->id_item)
+            ->where('status', 'pending')
+            ->first();
+
+        // Check if the user has already borrowed the item and it’s still in "lending" status
+        $borrowed = Lending::where('id_user', $request->id_user)
+            ->where('id_item', $request->id_item)
+            ->whereNotNull('actual_return_date')
+            ->first();
+
+        if ($existingRequest || $borrowed) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You already requested or borrowed this item.',
+            ], 400); // 400 Bad Request
+        }
+
+        // Create a new request record
+        $newRequest = Request::create([
+            'id_user' => $request->id_user,
+            'id_item' => $request->id_item,
+            'total_request' => $request->total_request,
+            'type' => $request->type,
+            'rent_id' => $request->rent_id ?? null,
+            'request_date' => now(),
+            'status' => $request->status,
+            'return_date' => $request->return_date,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Request Sent Successfully',
+            'data' => $newRequest,
+        ], 201); // 201 Created
+    }
+
+    public function apiDestroy($id)
+    {
+        $requestRecord = Request::find($id);
+        $requestRecord->delete();
+
+        return response()->json(['message' => 'Request cancelled successfully'], 200);
+    }
+
+
+    public function destroy(Request $request)
     {
         $request->delete();
 

@@ -1,7 +1,7 @@
 <x-layout color="bg-darkblue-500">
     <x-admin.navbar></x-admin.navbar>
     <x-admin.sidebar></x-admin.sidebar>
-    <main class="sm:ml-64 sm:mt-14 mt-16">
+    <main class="sm:ml-64 sm:my-14 my-16">
 
         <div class="w-full pt-4 px-6 sm:px-10">
             <div class="flex items-center">
@@ -62,8 +62,43 @@
             </div>
             
             <div class="w-full mt-10 py-2 px-4 bg-darkblue-300 rounded-lg">
-                <h1 class="text-2xl text-slate-200">Lending Graph</h1>
+                <h1 class="text-2xl text-slate-200 mb-6">Lending Graph</h1>
+                <canvas id="lendingChart" class="w-full h-96"></canvas>
             </div>
         </div>
     </main>
+
+        <script>
+            const labels = {!! json_encode($lendingData->pluck('date')) !!};
+            const data = {!! json_encode($lendingData->pluck('count')) !!};
+
+            const ctx = document.getElementById('lendingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Lendings',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true, position: 'top' }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Date' } },
+                        y: { 
+                            title: { display: true, text: 'Number of Lendings' }, 
+                            beginAtZero: true 
+                        }
+                    }
+                }
+            });
+        </script>
 </x-layout>
