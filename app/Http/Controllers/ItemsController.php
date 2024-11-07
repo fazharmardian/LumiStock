@@ -6,9 +6,11 @@ use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Lending;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ItemsController extends Controller
 {
@@ -43,8 +45,8 @@ class ItemsController extends Controller
     public function apiIndex(Request $request)
     {
         $item = Item::latest()
-        ->with('category')
-        ->get();
+            ->with('category')
+            ->get();
 
         $category = Category::all();
 
@@ -94,7 +96,8 @@ class ItemsController extends Controller
      */
     public function show(Item $item)
     {
-        $lending = Lending::where('status', 'lending')->where('id_item', $item->id)->get();
+        $lending = Lending::whereIn('status', ['lending', 'overdue'])
+            ->where('id_item', $item->id)->get();
 
         return view('index.user.show', [
             'item' => $item,
@@ -129,6 +132,59 @@ class ItemsController extends Controller
             ->delete();
 
         return back()->with('message', 'Bookmark removed successfully!');
+    }
+
+    public function apiCheckBook($id)
+    {
+        $bookmarked = Bookmark::where('user_id', Auth::id())
+            ->where('item_id', $id)
+            ->exists();
+
+        return response()->json([
+            'bookmarked' => $bookmarked
+        ]);
+    }
+
+    public function apiGetBooked($id)
+    {
+        $bookmark = Bookmark::where('user_id', $id)->with('item')->get();
+
+        return response()->json([
+            'bookmarks' => $bookmark
+        ]);
+    }
+
+    public function apiBooked(Request $request, $id)
+    {
+        $validated = Validator::make(['item_id' => $id], ['item_id' => 'exists:items,id']);
+
+        if ($validated->fails()) {
+            return response()->json(['error' => 'Invalid item'], 400);
+        }
+
+        $bookmark = Bookmark::where('user_id', Auth::id())
+            ->where('item_id', $id)
+            ->first();
+
+        if ($bookmark) {
+            $bookmark->delete();
+
+            return response()->json([
+                'message' => 'Successfully removed bookmark',
+                'bookmarked' => false,
+            ], 200);
+        } else {
+            $bookmark = Bookmark::create([
+                'user_id' => Auth::id(),
+                'item_id' => $id,
+            ]);
+
+            return response()->json([
+                'data' => $bookmark,
+                'message' => 'Successfully bookmarked the item',
+                'bookmarked' => true,
+            ], 200);
+        }
     }
 
     /**

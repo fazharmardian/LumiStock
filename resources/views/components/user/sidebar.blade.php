@@ -42,7 +42,7 @@
             </li>
             <p class="ml-2 text-sm text-slate-200">More</p>
             <li>
-                <x-sidelink href="/" :active="request()->is('setting')"> 
+                <x-sidelink href="{{ route('about') }}" :active="request()->is('about')"> 
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-slate-200 transition duration-75">
                         <i class="fa fa-circle-info"></i>
                     </span> 

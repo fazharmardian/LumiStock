@@ -20,6 +20,7 @@ class Request extends Model
         'request_date',
         'status',
         'return_date',
+        'must_return',
     ];
 
     public function user () 

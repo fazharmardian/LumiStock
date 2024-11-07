@@ -32,10 +32,10 @@
                         class="w-8 h-8 overflow-auto rounded-full bg-slate-100
                     focus:outline-none focus:ring-1 focus:ring-whiteblue-900
                     focus:ring-offset-2 focus:ring-offset-slate-800">
-                        @if (auth()->user()->avatar)
-                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
-                        @else
+                        @if (auth()->user()->avatar === '')
                             <img src="{{ asset('storage/avatars/default_profile.jpg') }}" alt="">
+                        @else
+                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
                         @endif
                     </button>
 
@@ -67,17 +67,6 @@
                                 </span>
                                 <span class="ms-2">
                                     My Profile
-                                </span>
-                            </a>
-                        </div>
-
-                        <div class="block hover:bg-darkblue-300 text-slate-200 pl-4 pr-8 py-2 rounded-lg">
-                            <a href="/" class="flex">
-                                <span>
-                                    <i class="fa fa-gear"></i>
-                                </span>
-                                <span class="ms-2">
-                                    Setting
                                 </span>
                             </a>
                         </div>

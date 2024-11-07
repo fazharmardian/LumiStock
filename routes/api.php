@@ -11,6 +11,11 @@ Route::post('/login', [AuthController::class, 'apiLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/item', [ItemsController::class, 'apiIndex']);
+    Route::get('/bookmark/{id}', [ItemsController::class, 'apiCheckBook']);
+    Route::get('/bookmark/user/{id}', [ItemsController::class, 'apiGetBooked']);
+    Route::post('/bookmark/{id}', [ItemsController::class, 'apiBooked']);
+
+    Route::get('profile/{user}', [ProfileController::class, 'apiGet']);
 
     Route::get('/request', [RequestController::class, 'apiIndex']);
     Route::post('/request/store', [RequestController::class, 'apiStore']);

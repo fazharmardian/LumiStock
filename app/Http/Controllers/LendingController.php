@@ -6,6 +6,8 @@ use App\Models\Item;
 use App\Models\Lending;
 use App\Models\Request as LendingRequest;
 use Illuminate\Http\Request as HttpRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class LendingController extends Controller
 {
@@ -41,35 +43,43 @@ class LendingController extends Controller
      */
     public function store(HttpRequest $request)
     {
-        $item = Item::findOrFail($request->id_item);
-        $status = LendingRequest::findOrFail($request->request_id);
-
         $request->validate([
             'id_user' => ['required', 'exists:users,id'],
             'id_item' => ['required', 'exists:items,id'],
             'total_request' => ['required', 'integer', 'min:1'],
-            'return_date' => ['required', 'date', 'after_or_equal:today'],
+            'must_return' => ['required', 'integer', 'between:1,7'],
             'status' => ['required', 'string'],
         ]);
+
+        $item = Item::findOrFail($request->id_item);
+        $status = LendingRequest::findOrFail($request->request_id);
 
         if ($request->total_request > $item->amount) {
             return back()->with('message', 'Requested amount exceeds available stock.');
         }
 
+        // Calculate the return date based on must_return days
+        $returnDate = now()->addDays((int)$request->must_return);
+
+        // Create the lending record
         Lending::create([
             'id_user' => $request->id_user,
             'id_item' => $request->id_item,
             'total_request' => $request->total_request,
             'lend_date' => now(),
-            'return_date' => $request->return_date,
+            'return_date' => $returnDate,
             'status' => $request->status,
         ]);
 
+        // Update the item's available amount
         $item->update(['amount' => $item->amount - $request->total_request]);
+
+        // Update the status of the lending request
         $status->update(['status' => 'Approved']);
 
         return back()->with('message', 'Request accepted successfully.');
     }
+
 
 
 
@@ -110,6 +120,20 @@ class LendingController extends Controller
         $status->update(['status' => 'Approved']);
 
         return back()->with('message', 'Item Succesfully Returned');
+    }
+
+    public function generatePDF()
+    {
+        // Fetch all requests with their related user and item data
+        $lending = Lending::with(['users', 'items'])->get();
+
+        // Load the PDF view with the fetched requests
+        $pdf = Pdf::loadView('components.admin.lendingPdf', [
+            'lendings' => $lending,
+        ]);
+
+        // Return the PDF as a download response
+        return $pdf->download('invoice.pdf');
     }
 
     /**

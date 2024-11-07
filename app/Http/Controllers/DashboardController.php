@@ -33,4 +33,9 @@ class DashboardController extends Controller
     {
         return view('index.admin.profile');
     }
+
+    public function about()
+    {
+        return view('index.admin.about');
+    }
 }

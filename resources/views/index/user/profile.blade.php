@@ -18,10 +18,10 @@
                     <template x-if="!editing">
                         @if (auth()->user()->avatar === '')
                             <img class="object-cover w-full h-full"
-                                src="{{ asset('storage/' . auth()->user()->avatar) }}">
+                                src="{{ asset('storage/avatars/default_profile.jpg') }}">
                         @else
                             <img class="object-cover w-full h-full"
-                                src="{{ asset('storage/avatars/default_profile.jpg') }}">
+                                src="{{ asset('storage/' . auth()->user()->avatar) }}">
                         @endif
                     </template>
                     <template x-if="editing">
@@ -53,17 +53,14 @@
                     </template>
                     <template x-if="editing">
                         <input type="email" name="email" value="{{ auth()->user()->email }}"
-                            class="bg-darkblue-400 text-slate-500 px-2 py-1 rounded-md border-none ring-0 outline-none focus:border-none focus:ring-0 focus:outline-indigo-500" form="profileForm" />
+                            class="bg-darkblue-400 text-slate-500 px-2 py-1 rounded-md border-none ring-0 outline-none focus:border-none focus:ring-0 focus:outline-indigo-500"
+                            form="profileForm" />
                     </template>
 
                     <template x-if="!editing">
                         <p class="text-indigo-300">Joined:
                             <span class="text-slate-500">{{ auth()->user()->created_at->format('F d, Y') }}</span>
                         </p>
-                    </template>
-                    <template x-if="editing">
-                        <input type="password" name="password" placeholder="password" value=""
-                            class="bg-darkblue-400 text-slate-400 placeholder-slate-500 px-2 py-1 rounded-md border-none ring-0 outline-none focus:border-none focus:ring-0 focus:outline-indigo-500" form="profileForm" />
                     </template>
 
                 </div>

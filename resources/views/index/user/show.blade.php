@@ -85,12 +85,24 @@
                                     </div>
 
                                     {{-- Return Date --}}
-                                    <div x-data="datePicker()" class="mt-2 flex flex-col">
-                                        <label class="text-sm text-slate-200" for="return_date">Return Date</label>
-                                        <input class="text-slate-200 bg-darkblue-100 border-none rounded-md"
-                                            type="date" name="return_date" x-bind:min="minDate"
-                                            x-bind:max="maxDate" x-model="returnDate" required>
+                                    <div x-data="{ minAmount: 1, maxAmount: 7, amount: null }" class="mt-2 flex flex-col">
+                                        <label class="text-sm text-slate-200" for="must_return">Return Days</label>
+                                        <div class="flex items-center">
+                                            <input
+                                                class="text-slate-200 bg-darkblue-100 border-none rounded-md w-16 mr-2"
+                                                type="number"
+                                                name="must_return"
+                                                :min="minAmount"
+                                                :max="maxAmount"
+                                                required
+                                                @input="
+                                                    if ($event.target.value > maxAmount) $event.target.value = maxAmount;
+                                                    if ($event.target.value < minAmount) $event.target.value = minAmount;
+                                                ">
+                                            <span class="text-slate-200">days</span>
+                                        </div>
                                     </div>
+
 
                                     {{-- Total Request --}}
                                     <div x-data="{ minAmount: 1, maxAmount: {{ $item->amount }}, amount: null }" class="mt-2 flex flex-col">
@@ -156,7 +168,8 @@
 
                         <div x-show="unbookmarkOpen" x-transition
                             class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" x-cloak>
-                            <div @click.outside="unbookmarkOpen = false" class="bg-darkblue-300 rounded-lg p-6 w-[70%] sm:w-[400px]">
+                            <div @click.outside="unbookmarkOpen = false"
+                                class="bg-darkblue-300 rounded-lg p-6 w-[70%] sm:w-[400px]">
                                 <div class="flex justify-between">
                                     <h2 class="text-xl text-slate-200 mb-4">Unbookmark {{ $item->name }} ?</h2>
                                     <span @click="unbookmarkOpen = false" class="text-slate-200">
@@ -195,7 +208,9 @@
                             {{ $loop->last ? 'rounded-b-xl border-b-0' : '' }}">
 
                             <div class="flex items-start space-x-2">
-                                <div class="w-4 h-4 mt-1 bg-yellow-500 rounded-full"></div>
+                                <div
+                                    class="w-4 h-4 mt-1 {{ $lending->status === 'Lending' ? 'bg-yellow-500' : 'bg-red-500' }} rounded-full">
+                                </div>
 
                                 <div class="flex flex-col">
                                     <h1 class="text-sm font-medium text-slate-300">
@@ -211,7 +226,7 @@
                                         </p>
                                         <p class="text-xs mt-1 text-slate-500">
                                             Return Date: <span
-                                                class="text-indigo-400">{{ $lending->return_date }}</span>
+                                                class="text-indigo-400">{{ $lending->must_return }}</span>
                                         </p>
                                     </div>
 
@@ -219,7 +234,8 @@
                             </div>
 
                             <div>
-                                <h1 class="text-yellow-500 text-sm font-semibold">
+                                <h1
+                                    class="{{ $lending->status === 'Lending' ? 'text-yellow-500' : 'text-red-500' }} text-sm font-semibold">
                                     {{ $lending->status }}
                                 </h1>
                             </div>

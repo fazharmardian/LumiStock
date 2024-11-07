@@ -34,6 +34,14 @@
                     <span class="ms-3">Item</span>
                 </x-sidelink>
             </li>
+            <li>
+                <x-sidelink href="{{ route('category.index') }}" :active="request()->is('admin/category')">
+                    <span class="flex items-center justify-center w-5 h-5 text-slate-200 transition duration-75">
+                        <i class="fa fa-layer-group"></i>
+                    </span>
+                    <span class="ms-3">Category</span>
+                </x-sidelink>
+            </li>
             <li x-data="{ open: {{ request()->is('admin/request/*') ? 'true' : 'false'}} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between p-2 text-slate-200 hover:bg-darkblue-100 rounded-lg group w-full transition duration-75">
@@ -79,7 +87,7 @@
             </li>
             <p class="ml-2 text-sm text-slate-200">More</p>
             <li>
-                <x-sidelink href="/" :active="request()->is('setting')">
+                <x-sidelink href="{{ route('admin.about') }}" :active="request()->is('admin/about')">
                     <span class="flex items-center justify-center w-5 h-5 mb-1 text-lg text-slate-200 transition duration-75">
                         <i class="fa fa-circle-info"></i>
                     </span>

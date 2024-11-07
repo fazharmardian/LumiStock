@@ -41,9 +41,9 @@
                     focus:outline-none focus:ring-1 focus:ring-whiteblue-900
                     focus:ring-offset-2 focus:ring-offset-slate-800">
                         @if (auth()->user()->avatar === '')
-                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
-                        @else
                             <img src="{{ asset('storage/avatars/default_profile.jpg') }}" alt="">
+                        @else
+                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
                         @endif
                     </button>
 
@@ -56,9 +56,9 @@
                             class="flex flex-col justify-center items-center hover:bg-darkblue-300 divide-red-50 pl-4 pr-8 pt-2 pb-1 rounded-lg">
                             <div class="w-14 h-14 mb-2 overflow-auto rounded-full">
                                 @if (auth()->user()->avatar === '')
-                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
-                                @else
                                     <img src="{{ asset('storage/avatars/default_profile.jpg') }}" alt="">
+                                @else
+                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="">
                                 @endif
                             </div>
                             <p class="text-xl text-center font-extrabold text-slate-200">
@@ -75,17 +75,6 @@
                                 </span>
                                 <span class="ms-2">
                                     My Profile
-                                </span>
-                            </a>
-                        </div>
-
-                        <div class="block hover:bg-darkblue-300 text-slate-200 pl-4 pr-8 py-2 rounded-lg">
-                            <a href="/" class="flex">
-                                <span>
-                                    <i class="fa fa-gear"></i>
-                                </span>
-                                <span class="ms-2">
-                                    Setting
                                 </span>
                             </a>
                         </div>

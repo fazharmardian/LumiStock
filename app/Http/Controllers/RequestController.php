@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lending;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +69,8 @@ class RequestController extends Controller
             'type' => ['required', 'string'],
             'rent_id' => ['nullable', 'exists:lendings,id'],
             'status' => ['required', 'string'],
-            'return_date' => ['required', 'date', 'after_or_equal:today'],
+            'return_date' => ['nullable'],
+            'must_return' => ['nullable', 'integer', 'between:1,7'],
         ]);
 
         $existingRequest = Request::where('id_user', $request->id_user)
@@ -78,7 +80,7 @@ class RequestController extends Controller
 
         $borrowed = Lending::where('id_user', $request->id_user)
             ->where('id_item', $request->id_item)
-            ->where('status', 'lending')
+            ->whereNotNull('actual_return_date')
             ->first();
 
         if ($existingRequest || $borrowed) {
@@ -94,9 +96,24 @@ class RequestController extends Controller
             'request_date' => now(),
             'status' => $request->status,
             'return_date' => $request->return_date,
+            'must_return' => $request->must_return,
         ]);
 
         return back()->with('message', 'Request Sent Successfully');
+    }
+
+    public function generatePDF()
+    {
+        // Fetch all requests with their related user and item data
+        $requests = Request::with(['user', 'item'])->get();
+
+        // Load the PDF view with the fetched requests
+        $pdf = Pdf::loadView('components.admin.requestPdf', [
+            'requests' => $requests,
+        ]);
+
+        // Return the PDF as a download response
+        return $pdf->download('invoice.pdf');
     }
 
     public function apiIndex()
@@ -132,7 +149,8 @@ class RequestController extends Controller
             'type' => ['required', 'string'],
             'rent_id' => ['nullable', 'exists:lendings,id'],
             'status' => ['required', 'string'],
-            'return_date' => ['required', 'date', 'after_or_equal:today'],
+            'return_date' => ['nullable'],
+            'must_return' => ['nullable', 'integer', 'between:1,7'],
         ]);
 
         // Check if the user has an existing pending request for the item
@@ -164,6 +182,7 @@ class RequestController extends Controller
             'request_date' => now(),
             'status' => $request->status,
             'return_date' => $request->return_date,
+            'must_return' => $request->must_return,
         ]);
 
         return response()->json([

@@ -16,7 +16,7 @@
                         class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 ">
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
-                            <div class="absolute top-1 start-0 z-50 flex items-center ps-3 pointer-events-none">
+                            <div class="absolute top-1 start-0 z-20 flex items-center ps-3 pointer-events-none">
                                 <span class="text-gray-500">
                                     <i class="fa fa-magnifying-glass"></i>
                                 </span>
@@ -45,13 +45,15 @@
                         <tbody>
                             @forelse ($lendings as $lending)
                                 <tr class="bg-darkblue-300 border-b-2 border-darkblue-500 hover:bg-darkblue-400">
-                                    <td class="px-6 py-4 text-slate-200">{{ ($lendings->currentPage() - 1) * $lendings->perPage() + $loop->iteration }}</td>
+                                    <td class="px-6 py-4 text-slate-200">
+                                        {{ ($lendings->currentPage() - 1) * $lendings->perPage() + $loop->iteration }}
+                                    </td>
                                     <td class="px-6 py-4 text-lg text-slate-200">{{ $lending->users->username }}</td>
                                     <td class="px-6 py-4 text-slate-200">{{ $lending->items->name }}</td>
                                     <td class="px-6 py-4 text-slate-200">
                                         <div class="flex items-center">
-                                            <div
-                                                class="h-2.5 w-2.5 rounded-full me-2 {{ $lending->status === 'Returned' ? 'bg-green-500' : 'bg-yellow-500' }}">
+                                            <div class="h-2.5 w-2.5 rounded-full me-2 
+                                                {{ $lending->status === 'Returned' ? 'bg-green-500' : ($lending->status === 'Overdue' ? 'bg-red-500' : 'bg-yellow-500') }}">
                                             </div>
                                             <span>
                                                 {{ $lending->status }}
@@ -119,9 +121,11 @@
                                                             <i class="fa fa-x"></i>
                                                         </span>
                                                     </div>
-                                                    <p class="text-gray-500 mb-6">Are you sure you want to accept this Items ? 
+                                                    <p class="text-gray-500 mb-6">Are you sure you want to accept this
+                                                        Items ?
                                                         This action cannot be undone</p>
-                                                    <form action="{{ route('lending.destroy', $lending->id) }}" method="post">
+                                                    <form action="{{ route('lending.destroy', $lending->id) }}"
+                                                        method="post">
                                                         @csrf
                                                         @method('DELETE')
 
@@ -161,8 +165,7 @@
                     </div>
                 </div>
 
-                <div x-data="{ showSuccess: {{ session('message') ? 'true' : 'false' }} }" x-show="showSuccess"
-                    x-transition:enter="transition ease-out duration-300"
+                <div x-data="{ showSuccess: {{ session('message') ? 'true' : 'false' }} }" x-show="showSuccess" x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="translate-y-full opacity-0"
                     x-transition:enter-end="translate-y-0 opacity-100"
                     x-transition:leave="transition ease-in duration-300"

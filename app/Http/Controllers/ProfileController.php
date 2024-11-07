@@ -65,6 +65,13 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
+    public function apiGet(User $user)
+    {
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
     public function apiUpdate(HttpRequest $request, string $id)
     {
         try {

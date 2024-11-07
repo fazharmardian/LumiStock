@@ -1,6 +1,6 @@
 <x-layout color="bg-darkblue-500">
-    <x-user.navbar />
-    <x-user.sidebar />
+    <x-admin.navbar />
+    <x-admin.sidebar />
 
     <main class="sm:ml-64 sm:my-14 mt-16" x-data="{ editing: false }">
         <div class="flex flex-col w-full px-4 sm:px-10 pt-6">
@@ -17,11 +17,11 @@
                     class="absolute bottom-0 left-10 z-50 h-[200px] w-[200px] overflow-hidden bg-darkblue-100 rounded-full">
                     <template x-if="!editing">
                         @if (auth()->user()->avatar === '' )
-                            <img class="object-cover w-full h-full"
-                                src="{{ asset('storage/' . auth()->user()->avatar) }}">
+                        <img class="object-cover w-full h-full"
+                        src="{{ asset('storage/avatars/default_profile.jpg') }}">
                         @else
-                            <img class="object-cover w-full h-full"
-                                src="{{ asset('storage/avatars/default_profile.jpg') }}">
+                        <img class="object-cover w-full h-full"
+                            src="{{ asset('storage/' . auth()->user()->avatar) }}">
                         @endif
                     </template>
                     <template x-if="editing">
@@ -60,10 +60,6 @@
                         <p class="text-indigo-300">Joined:
                             <span class="text-slate-500">{{ auth()->user()->created_at->format('F d, Y') }}</span>
                         </p>
-                    </template>
-                    <template x-if="editing">
-                        <input type="password" name="password" placeholder="password" value=""
-                            class="bg-darkblue-400 text-slate-400 placeholder-slate-500 px-2 py-1 rounded-md" form="profileForm" />
                     </template>
 
                 </div>

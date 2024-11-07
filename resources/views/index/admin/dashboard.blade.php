@@ -62,7 +62,13 @@
             </div>
             
             <div class="w-full mt-10 py-2 px-4 bg-darkblue-300 rounded-lg">
-                <h1 class="text-2xl text-slate-200 mb-6">Lending Graph</h1>
+                <div class="flex mt-2 justify-between">
+                    <h1 class="text-2xl text-slate-200 mb-6">Lending Graph</h1>
+                    <a href="{{ route('lending.pdf') }}" class="flex items-center px-2 h-10 bg-teal-500 text-slate-200 rounded-md space-x-2">
+                        <span><i class="fa fa-file-pdf"></i></span>
+                        <span>Generate Report</span>
+                    </a>
+                </div>
                 <canvas id="lendingChart" class="w-full h-96"></canvas>
             </div>
         </div>

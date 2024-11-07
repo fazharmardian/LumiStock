@@ -125,10 +125,10 @@
                                         <div class="w-12 h-12 overflow-auto rounded-full bg-slate-100">
                                             @if ($user->avatar === '')
                                                 <img class="object-cover w-full h-full"
-                                                    src="{{ asset('storage/' . $user->avatar) }}">
+                                                    src="{{ asset('storage/avatars/default_profile.jpg') }}">
                                             @else
                                                 <img class="object-cover w-full h-full"
-                                                    src="{{ asset('storage/avatars/default_profile.jpg') }}">
+                                                    src="{{ asset('storage/' . $user->avatar) }}">
                                             @endif
                                         </div>
                                         <div class="ps-3">
@@ -138,10 +138,15 @@
                                         </div>
                                     </th>
                                     <td class="px-6 py-4 text-slate-200 capitalize">{{ $user->role }}</td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-                                            <span class="text-gray-500">Online</span>
+                                    <td class="px-6 py-4 text-slate-200 capitalize">
+                                        <div class="flex items-center space-x-2">
+                                            @if (Cache::has('user-is-online-' . $user->id))
+                                                <div class="h-4 w-4 bg-green-500 rounded-full"></div>
+                                                <span>Online</span>
+                                            @else
+                                                <div class="h-4 w-4 bg-slate-500 rounded-full"></div>
+                                                <span>Offline</span>
+                                            @endif
                                         </div>
                                     </td>
 
@@ -281,6 +286,7 @@
                                         </div>
 
                                     </td>
+
                                 </tr>
                             @empty
                                 <tr>

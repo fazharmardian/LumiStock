@@ -14,7 +14,7 @@
                 <div class="relative overflow-x-auto sm:rounded-lg">
                     <div class="flex items-center justify-between flex-wrap gap-4 pb-4 md:flex-nowrap">
                         <div class="relative flex-grow md:w-auto">
-                            <div class="absolute top-1 start-0 z-50 flex items-start ps-3 pointer-events-none">
+                            <div class="absolute top-1 start-0 z-20 flex items-start ps-3 pointer-events-none">
                                 <span class="text-gray-500">
                                     <i class="fa fa-magnifying-glass"></i>
                                 </span>

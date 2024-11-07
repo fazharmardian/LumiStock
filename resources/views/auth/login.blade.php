@@ -51,9 +51,9 @@
                                 </label>
                             </div>
     
-                            <div>
+                            {{-- <div>
                                 <a class="text-blue-500 text-sm mt-1" href="">Forgot your password ?</a>
-                            </div>
+                            </div> --}}
     
                         </div>
     

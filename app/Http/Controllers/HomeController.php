@@ -15,9 +15,9 @@ class HomeController extends Controller
     public function index()
     {
         $item = Item::latest()->paginate('16');
-        $book = Item::where('category_id', '6')->latest()->paginate('5');
-        $electronic = Item::where('category_id', '1')->latest()->paginate('5');
-        $furniture = Item::where('category_id', '2')->latest()->paginate('5');
+        $book = Item::where('category_id', '16')->latest()->paginate('5');
+        $electronic = Item::where('category_id', '17')->latest()->paginate('5');
+        $furniture = Item::where('category_id', '15')->latest()->paginate('5');
 
         return view('index.user.dashboard', [
             'items' => $item,
@@ -91,5 +91,10 @@ class HomeController extends Controller
             'sends' => $send,
             'approved' => $approved
         ]);
+    }
+
+    public function about()
+    {
+        return view('index.user.about');
     }
 }

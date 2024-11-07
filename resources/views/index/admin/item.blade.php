@@ -99,7 +99,7 @@
                         class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4">
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
-                            <div class="absolute top-1 start-0 z-50 flex items-center ps-3 pointer-events-none">
+                            <div class="absolute top-1 start-0 z-20 flex items-center ps-3 pointer-events-none">
                                 <span class="text-gray-500">
                                     <i class="fa fa-magnifying-glass"></i>
                                 </span>

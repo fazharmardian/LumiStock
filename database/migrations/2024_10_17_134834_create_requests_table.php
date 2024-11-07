@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('rent_id')->nullable();
             $table->date('request_date');
             $table->string('status');
-            $table->date('return_date');
+            $table->date('return_date')->nullable();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_item')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
