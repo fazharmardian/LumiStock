@@ -141,10 +141,10 @@
                                     <td class="px-6 py-4 text-slate-200 capitalize">
                                         <div class="flex items-center space-x-2">
                                             @if (Cache::has('user-is-online-' . $user->id))
-                                                <div class="h-4 w-4 bg-green-500 rounded-full"></div>
+                                                <div class="h-4 w-4 mb-1 bg-green-500 rounded-full"></div>
                                                 <span>Online</span>
                                             @else
-                                                <div class="h-4 w-4 bg-slate-500 rounded-full"></div>
+                                                <div class="h-4 w-4 mb-1 bg-slate-500 rounded-full"></div>
                                                 <span>Offline</span>
                                             @endif
                                         </div>

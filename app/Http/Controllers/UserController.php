@@ -16,6 +16,7 @@ class UserController extends Controller
         $search = $request->input('search');
 
         $users = User::latest()
+            ->where('role', 'user')
             ->when($search, function ($query, $search) {
                 return $query->where('username', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%");
@@ -41,7 +42,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'username' => 'required|max:50|unique:users',
-            'full_name' => 'nullable|max:50|unique:users',
+            // 'full_name' => 'nullable|max:50|unique:users',
             'email' => 'required|email|max:50|unique:users',
             'password' => 'required|min:3',
             'role' => 'required',

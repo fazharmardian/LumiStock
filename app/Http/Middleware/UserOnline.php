@@ -18,7 +18,7 @@ class UserOnline
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            $expiresAt = now()->addMinutes(5);
+            $expiresAt = now()->addMinutes(1);
             Cache::put('user-is-online-' . Auth::user()->id, true, $expiresAt);
         }
         
