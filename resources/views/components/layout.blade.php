@@ -23,8 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('build/assets/app-D_nnt7te.css') }}">
-    <link rel="stylesheet" href="{{ mix('build/assets/app-DKSpHewO.js') }}">
+    <link rel="stylesheet" href="{{ mix('build/assets/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('build/assets/app.js') }}">
 
 </head>
 
