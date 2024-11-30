@@ -66,7 +66,7 @@
                 <div class="bg-darkblue-200 rounded-xl py-5 px-6">
                     <div class="flex mb-4 justify-between">
                         <h2 class="text-gray-300 text-xl sm:text-2xl">Cleaning</h2>
-                        <a href="" class="px-2 text-xl text-slate-500 hover:bg-darkblue-500 rounded-lg">
+                        <a href="{{ route('item', ['category' => 16]) }}" class="px-2 text-xl text-slate-500 hover:bg-darkblue-500 rounded-lg">
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
@@ -100,7 +100,7 @@
                 <div class="bg-darkblue-200 rounded-xl py-5 px-6">
                     <div class="flex mb-4 justify-between">
                         <h2 class="text-gray-300 text-xl sm:text-2xl">Electronics</h2>
-                        <a href="" class="px-2 text-xl text-slate-500 hover:bg-darkblue-500 rounded-lg">
+                        <a href="{{ route('item', ['category' => 17]) }}" class="px-2 text-xl text-slate-500 hover:bg-darkblue-500 rounded-lg">
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
@@ -136,7 +136,7 @@
                 <div class="bg-darkblue-200 rounded-xl py-5 px-6">
                     <div class="flex mb-4 justify-between">
                         <h2 class="text-gray-300 text-xl sm:text-2xl">Sports</h2>
-                        <a href="" class="px-2 text-xl text-slate-500 hover:bg-darkblue-400 rounded-lg">
+                        <a href="{{ route('item', ['category' => 15]) }}" class="px-2 text-xl text-slate-500 hover:bg-darkblue-400 rounded-lg">
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
