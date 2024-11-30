@@ -9,18 +9,24 @@
         }
         },
         "routes": [
-    {
-      "src": "/build/(.*)",
-      "dest": "/public/build/$1"
-    },
-    {
-      "src": "/storage/(.*)",
-      "dest": "/public/storage/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
-    }
-  ],
-        "outputDirectory": "public"
+        {
+          "src": "/build/(.*)",
+          "dest": "/public/build/$1"
+        },
+        {
+          "src": "/storage/(.*)",
+          "dest": "/public/storage/$1"
+        },
+        {
+          "src": "/(.*)",
+          "dest": "/api/index.php"
+        }
+      ],
+      "builds": [
+        {
+          "src": "public/**/*",
+          "use": "@vercel/static"
+        }
+      ],
+      "outputDirectory": "public"
 } 
