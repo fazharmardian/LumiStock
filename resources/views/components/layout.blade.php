@@ -23,7 +23,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ mix('build/assets/app-D_nnt7te.css') }}">
+    <link rel="stylesheet" href="{{ mix('build/assets/app-DKSpHewO.js') }}">
+
 </head>
 
 <body class="{{$color}}">
